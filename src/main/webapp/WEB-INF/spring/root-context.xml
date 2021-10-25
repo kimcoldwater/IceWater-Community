@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		<!-- 오라클 접속 -->
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+        <property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521/root"/>
+        <property name="username" value="C##root"/>
+        <property name="password" value="kim5057"/>
+    </bean>
+   
+    <!-- Mybatis 연동 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+         <property name="dataSource" ref="dataSource"></property>
+         <property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+         <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"/>
+    </bean>
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    <!-- scan -->
+    <context:component-scan base-package="kr.co"></context:component-scan>
+	
+	<!-- 회원가입 메일 인증 -->
+	<bean id="mailSender"	class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" /><!-- 465 or 25 -->
+		<property name="username" value="kimfk567@gmail.com" />
+		<property name="password" value="ckstn57677" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+			</props>
+		</property>
+	</bean>
+	
+	
+	<!-- 네이버 로그인 -->
+<bean id="naverClientID" class="java.lang.String">
+        <constructor-arg value="HywlcM6XWW8x7i_VtLtN" />
+</bean>
+<bean id="naverClientSecret" class="java.lang.String">
+        <constructor-arg value="izhZixOkWa" />
+</bean>
+<bean id="naverRedirectUrl" class="java.lang.String">
+        <constructor-arg value="http://localhost:8080/member/naverLogin" />
+</bean>
+    
+<bean id="naverSns" class="kr.co.commons.sns.SnsValue">
+        <constructor-arg value="naver" />
+        <constructor-arg ref="naverClientID" />
+        <constructor-arg ref="naverClientSecret" />
+        <constructor-arg ref="naverRedirectUrl" />
+</bean>
+
+<!--  -->
+
+</beans>

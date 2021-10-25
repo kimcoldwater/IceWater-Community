@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+
+	<!-- 게시판 글 작성 -->
+	<insert id="insert" parameterType="kr.co.vo.BoardVO"
+		useGeneratedKeys="true" keyProperty="bno">
+		<selectKey keyProperty="bno" resultType="int" order="BEFORE">
+			SELECT
+			MP_BOARD_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO MP_BOARD( BNO
+		, TITLE
+		, CONTENT
+		, WRITER 
+		, BGNO
+		, ID
+		<if test="helppoint != null">
+		, HELPPOINT
+		</if>
+		 )
+		VALUES( #{bno}
+		,#{title}
+		, #{content}
+		, #{writer}
+		, #{bgnoinsert}
+		, #{id}
+		<if test="helppoint != null">
+		, #{helppoint} + 10
+		</if>
+		)
+
+	</insert>
+
+	<select id="notice" resultType="kr.co.vo.BoardVO" >
+	<![CDATA[select * from (select * from mp_board where bgno=2 order by bno desc)
+	where NOTICE = 'Y']]>
+	</select>
+
+		
+	<select id="read" parameterType="int"
+		resultMap="BoardVO">
+		SELECT a.BNO
+		, a.TITLE
+		, a.CONTENT
+		, a.WRITER
+		, a.REGDATE
+		, a.HIT
+		, a.ID
+		, a.BGNO
+		, a.LIKEHIT
+		, a.HATEHIT
+		, a.REPLYHIT
+		, a.DEVHIT
+		, a.QUESTIONCHECK
+		, a.HELPPOINT
+		, a.QUESTIONID
+		, b.MEMBER_DEVPOINT
+		, b.MEMBER_POINT
+		, b.MEMBER_ID
+		, b.MEMBER_IMG
+		, b.MEMBER_NAME
+		FROM
+		MP_BOARD a left outer JOIN MP_MEMBER b 
+		on a.ID = b.member_ID
+		WHERE BNO = #{bno}
+	</select>
+
+	<update id="update" parameterType="kr.co.vo.BoardVO">
+		UPDATE MP_BOARD
+		SET TITLE =
+		#{title},
+		CONTENT = #{content}
+		WHERE BNO = #{bno}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		DELETE
+		FROM MP_BOARD
+		WHERE BNO =
+		#{bno}
+	</delete>
+	
+	<resultMap type="kr.co.vo.BoardCheckVO" id="BoardCheckVO">
+		<result column="CNO" property="cno"/>
+		<result column="BNO" property="bno"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
+	
+	<resultMap type="kr.co.vo.BoardVO" id="BoardVO">
+		<result column="BNO" property="bno"/>
+		<result column="TITLE" property="title"/>
+		<result column="WRITER" property="writer"/>
+		<result column="CONTENT" property="content"/>
+		<result column="HIT" property="hit"/>
+		<result column="ID" property="id"/>
+		<result column="REPLYHIT" property="replyhit"/>
+		<result column="REGDATE" property="regdate"/>
+		<result column="BGNO" property="bgno"/>
+		<result column="LIKEHIT" property="likehit"/>
+		<result column="HATEHIT" property="hatehit"/>
+		<result column="ID" property="id"/>
+		<result column="DEVHIT" property="devhit"/>
+		<result column="QUESTIONCHECK" property="questioncheck"/>
+		<result column="HELPPOINT" property="helppoint"/>
+		<result column="QUESTIONID" property="questionid"/>
+		
+		<collection property="boardCheckVO" resultMap="BoardCheckVO"></collection>
+		<collection property="memberVO" resultMap="MemberVO"></collection>
+	
+	</resultMap>
+	
+	<resultMap type="kr.co.vo.MemberVO" id="MemberVO">
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="MEMBER_POINT" property="memberPoint"/>
+		<result column="MEMBER_DEVPOINT" property="memberDevPoint"/>
+		<result column="MEMBER_IMG" property="memberImg"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		
+	</resultMap>
+	
+	
+	
+	<select id="listPage" resultMap="BoardVO"
+		parameterType="kr.co.vo.SearchCriteria">
+		SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (
+		SELECT BNO,
+		TITLE,
+		CONTENT,
+		WRITER,
+		REGDATE,
+		HIT ,
+		REPLYHIT,
+		BGNO,
+		LIKEHIT,
+		HATEHIT,
+		ID,
+		DEVHIT,
+		QUESTIONCHECK,
+		HELPPOINT,
+		ROW_NUMBER() OVER(
+		<include refid="sort" />) AS RNUM
+		FROM MP_BOARD
+		WHERE 1=1
+		<include refid="search" />
+		<include refid="bgno" />
+		
+		
+		)a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test="memberId != null">
+		AND b.member_id = #{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		<include refid="sortt" />
+	</select>
+	
+	
+	<sql id="bgno">
+	
+		<if test="bgno == 0">
+		and BGNO = 1 or BGNO = 2 or BGNO = 3 or BGNO = 4 or BGNO =5 or BGNO =6 or BGNO =7
+		 or BGNO =8 or BGNO =9 or BGNO =10 or BGNO =11 or BGNO =12
+		  or BGNO =13 or BGNO =14 or BGNO =15 or BGNO =16 or BGNO =17 or BGNO =18 or
+		  
+		  BGNO = 25 or BGNO =26 or BGNO =27 or BGNO =28
+		</if>
+		<if test="bgno == 19">
+		and BGNO = 20 or BGNO =21 or BGNO =22 or BGNO =23
+		</if>
+		
+		<if test="bgno == 24">
+		and BGNO = 25 or BGNO =26 or BGNO =27 or BGNO =28
+		</if>
+		
+		
+		
+		<if test="bgno != 0 or bgno != 19 or bgno != 24 ">
+		and BGNO=#{bgno}
+		</if>
+	</sql>
+	
+	
+<sql id="sort">
+<if test="sort == null">
+ORDER BY BNO DESC
+</if>
+<if test="sort == ''">
+order by BNO DESC
+</if>
+<if test="sort == 'bno'">
+ORDER BY BNO DESC
+</if>
+<if test="sort == 'viewCount'">
+ORDER BY HIT DESC
+</if>
+<if test="sort == 'replyCount'">
+ORDER BY REPLYHIT DESC
+</if>
+<if test="sort == 'likeCount'">
+ORDER BY LIKEHIT DESC
+</if>
+</sql>
+	
+<sql id="sortt">
+<if test="sort == null">
+ORDER BY a.BNO DESC
+</if>
+<if test="sort == ''">
+order by a.BNO DESC
+</if>
+<if test="sort == 'bno'">
+ORDER BY a.BNO DESC
+</if>
+<if test="sort == 'viewCount'">
+ORDER BY a.HIT DESC
+</if>
+<if test="sort == 'replyCount'">
+ORDER BY a.REPLYHIT DESC
+</if>
+<if test="sort == 'likeCount'">
+ORDER BY a.LIKEHIT DESC
+</if>
+</sql>
+
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND WRITER LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT
+				LIKE '%' || #{keyword} || '%')</if>
+			<if test="searchType == 'tcw'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT
+				LIKE '%' || #{keyword} || '%') or (WRITER LIKE '%' || #{keyword} ||
+				'%')</if>
+
+		</if>
+	</sql>
+	
+	
+	<select id="listCount" parameterType="kr.co.vo.SearchCriteria"
+		resultType="int">
+		SELECT COUNT(BNO)
+		FROM MP_BOARD
+		WHERE 1=1
+		<include refid="search"></include>
+		AND BNO > 0
+		
+		<if test="bgno == 0">
+		and BGNO = 1 or BGNO = 2 or BGNO = 3 or BGNO = 4 or BGNO =5 or BGNO =6 or BGNO =7
+		 or BGNO =8 or BGNO =9 or BGNO =10 or BGNO =11 or BGNO =12
+		  or BGNO =13 or BGNO =14 or BGNO =15 or BGNO =16 or BGNO =17 or BGNO =18 or
+		  BGNO = 20 or BGNO =21 or BGNO =22 or BGNO =23 or
+		  BGNO = 25 or BGNO =26 or BGNO =27 or BGNO =28
+		</if>
+		<if test="bgno == 19">
+		and BGNO = 20 or BGNO =21 or BGNO =22 or BGNO =23
+		</if>
+		
+		<if test="bgno == 24">
+		and BGNO = 25 or BGNO =26 or BGNO =27 or BGNO =28
+		</if>
+		<if test="bgno != 0 or bgno != 19 or bgno != 24">
+		and BGNO=#{bgno}
+		</if>
+	</select>
+
+	<!--조회수 -->
+	<update id="boardHit" parameterType="int">
+		UPDATE MP_BOARD SET
+		HIT =
+		HIT+1
+		WHERE BNO = #{bno}
+	</update>
+
+	<insert id="insertFile" parameterType="hashMap">
+		INSERT INTO MP_FILE(
+		FILE_NO,
+		BNO,
+		ORG_FILE_NAME,
+		STORED_FILE_NAME,
+		FILE_SIZE
+		)VALUES(
+		SEQ_MP_FILE_NO.NEXTVAL,
+		#{BNO},
+		#{ORG_FILE_NAME},
+		#{STORED_FILE_NAME},
+		#{FILE_SIZE}
+		)
+
+	</insert>
+
+	<select id="selectFileList" parameterType="int"
+		resultType="hashMap">
+		SELECT FILE_NO,
+		ORG_FILE_NAME,
+		ROUND(FILE_SIZE/1024,1) AS FILE_SIZE,
+		STORED_FILE_NAME
+		
+		
+		FROM MP_FILE
+		WHERE BNO = #{BNO}
+		AND DEL_GB = 'N'
+		AND RNO is NULL
+		ORDER BY FILE_NO ASC
+	</select>
+	
+	<!-- 첨부파일 다운 -->
+<select id="selectFileInfo" parameterType="hashMap" resultType="hashMap">
+	SELECT 
+		STORED_FILE_NAME,
+		ORG_FILE_NAME
+	FROM MP_FILE
+	WHERE FILE_NO = #{FILE_NO}
+</select>
+
+<update id="updateFile" parameterType="hashMap">
+UPDATE MP_FILE SET
+DEL_GB = 'Y'
+WHERE FILE_NO = #{FILE_NO}
+
+</update>
+
+<select id="movePage" parameterType="kr.co.vo.BoardVO" resultType="kr.co.vo.BoardVO">
+select * from(SELECT 
+		BNO,
+         LEAD(BNO,1,9999) OVER(ORDER BY BNO) AS next,
+         LAG(BNO,1,9999) OVER(ORDER BY BNO) AS last,
+         TITLE,
+         LEAD(TITLE,1,9999) OVER(ORDER BY BNO) AS nexttitle,
+         LAG(TITLE,1,9999) OVER(ORDER BY BNO) AS lasttitle
+         
+		FROM
+		MP_BOARD 
+		<choose>
+		<when test="bgno == 0">
+		WHERE 
+		BGNO = 1 or BGNO = 2 or BGNO = 3 or BGNO = 4 or BGNO = 5 or BGNO = 6
+		 or BGNO = 7 or BGNO = 8 or BGNO = 9 or BGNO = 10 or BGNO = 11
+		  or BGNO = 12 or BGNO = 13 or BGNO = 14 or BGNO = 15 or BGNO = 16
+		   or BGNO = 17 or BGNO = 18
+		</when>
+		<when test="bgno == 19">
+		WHERE
+		BGNO = 20 or BGNO = 21  or BGNO = 22 or BGNO = 23
+		</when>
+		<when test="bgno == 24">
+		WHERE
+		 BGNO = 25 or BGNO = 26 or BGNO = 27 or BGNO = 28
+		</when>
+		<otherwise>
+		WHERE
+		BGNO = #{bgno}
+		</otherwise>
+		</choose>
+			
+	
+        order by BNO DESC) WHERE BNO = #{bno}
+</select>
+
+
+<!-- 회원이 게시글 읽을때 테이블에 추가 -->
+<insert id="insertBoardCheck">
+insert into MP_BOARD_CHECK(CNO , BNO , MEMBER_ID) 
+values((SELECT NVL(MAX(CNO), 0) + 1 FROM MP_BOARD_CHECK) ,#{bno} ,#{memberId})
+</insert>
+<!-- 게시글 읽었는지 안읽었는지 체크 -->
+<select id="boardCheck" resultType="int">
+select count(*) from MP_BOARD_CHECK where MEMBER_ID = #{memberId} AND BNO = #{bno}
+</select>
+
+
+<!-- 채택 -->
+<!-- Q&A 내공걸면 회원포인트 다운-->
+<update id="questionPointDown">
+update MP_MEMBER set MEMBER_POINT = MEMBER_POINT - #{helppoint} where member_ID = #{memberId}
+</update>
+
+<!-- 채택된 회원에게 포인트 전달 -->
+<update id="questionPointUp">
+update MP_MEMBER set MEMBER_DEVPOINT = MEMBER_DEVPOINT + #{helppoint} where MEMBER_ID = #{memberId}
+</update>
+
+<!-- questionCheck를 1로 바꿔서 채택완료를 뜨게함 -->
+<update id="questionCheck">
+update MP_BOARD set QUESTIONCHECK = 1 , QUESTIONID = #{rno} where bno =#{bno}
+</update>
+
+<select id="questionPointCheck" resultType="int">
+select MEMBER_POINT from MP_MEMBER where MEMBER_ID = #{memberId}
+</select>
+
+
+
+
+
+
+<!-- 스크랩 기능 -->
+<insert id="scrap">
+insert into MP_SCRAP (SCRAPNO,MEMBER_ID , BNO) 
+values ((SELECT NVL(MAX(SCRAPNO), 0) + 1 FROM MP_SCRAP),#{memberId},#{bno})
+</insert>
+
+<!-- 스크랩 취소 -->
+<delete id="scrapCancel">
+delete from MP_SCRAP where BNO = #{bno} AND MEMBER_ID = #{memberId}
+</delete>
+
+<!-- 게시글의 스크랩 수 -->
+<select id="scrapCount" resultType="int">
+select count(*) from MP_SCRAP where bno = #{bno}
+</select>
+
+<!-- 중복방지 -->
+<select id="scrapCheck" resultType="int">
+select count(*) from MP_SCRAP where bno = #{bno} and MEMBER_ID = #{memberId}
+</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="masterMapper">
+
+<!--  회원정지 -->
+<update id="memberSanction">
+<![CDATA[
+update MP_MEMBER set MEMBER_RANK = 2 , MEMBER_SANCTIONTIME = TO_CHAR(SYSDATE + #{sanctionTime}, 'yyyy/mm/dd') where MEMBER_ID = #{memberId}
+]]>
+</update>
+
+<!-- 정지해제 -->
+<update id="memberSanctionCancel">
+update MP_MEMBER set MEMBER_RANK = 1 where MEMBER_ID = #{memberId}
+</update>
+
+<!-- 정지된 회원인지 확인 -->
+<select id="memberRankCheck" resultType="int">
+<![CDATA[
+select count(*) from MP_MEMBER where MEMBER_ID = #{memberId} AND MEMBER_RANK = 2 AND MEMBER_SANCTIONTIME > SYSDATE 
+]]>
+</select>
+
+<!-- 정지기간 확인 -->
+<select id="memberSanctionTime" resultType="date">
+select MEMBER_SANCTIONTIME from MP_MEMBER where MEMBER_ID = #{memberId}
+</select>
+
+
+
+
+<select id="memberList" resultMap="MemberVOResultMap" parameterType="kr.co.vo.SearchCriteria">
+select * from
+(select MEMBER_ID , MEMBER_NAME, MEMBER_EMAIL, MEMBER_POINT, MEMBER_DEVPOINT ,MEMBER_JOIN_DATE, MEMBER_RANK,MEMBER_SANCTIONTIME, ROW_NUMBER () 
+OVER ( ORDER by MEMBER_ID DESC) AS RNUM FROM MP_MEMBER <include refid="search" />)
+where RNUM BETWEEN #{rowStart} AND #{rowEnd} 
+
+
+</select>
+<select id="memberListCount" parameterType="kr.co.vo.SearchCriteria"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM MP_MEMBER
+</select>
+
+<update id="insertPoint">
+update MP_MEMBER SET MEMBER_POINT = MEMBER_POINT + #{memberPoint} 
+where MEMBER_ID = #{memberId}
+</update>
+
+<update id="insertDevPoint">
+update MP_MEMBER SET MEMBER_DEVPOINT = MEMBER_DEVPOINT + #{memberPoint} 
+where MEMBER_ID = #{memberId}
+</update>
+
+<update id="insertNotice">
+update MP_BOARD SET NOTICE ='Y' where bno = #{bno}
+</update>
+
+<update id="deleteNotice">
+update MP_BOARD SET NOTICE ='N' where bno = #{bno}
+</update>
+
+<select id="noticeView" resultType="kr.co.vo.BoardVO">
+select BNO , TITLE , REGDATE from MP_BOARD where bgno = 2 AND NOTICE = 'Y'
+</select>
+
+<!-- 관리자 지정 -->
+<update id="memberMaster">
+update MP_MEMBER SET MEMBER_RANK = 3 where MEMBER_ID = #{memberId}
+</update>
+
+<update id="memberMasterCancel">
+update MP_MEMBER SET MEMBER_RANK = 1 where MEMBER_ID = #{memberId}
+</update>
+
+
+
+
+	<sql id="search">
+		<if test="keyword != ''">
+			WHERE MEMBER_NAME = #{keyword}
+		</if>
+	</sql>
+
+
+<resultMap id="MemberVOResultMap" type="kr.co.vo.MemberVO">
+<result property="memberId" column="MEMBER_ID"/>
+<result property="memberPw" column="MEMBER_PW"/>
+<result property="memberName" column="MEMBER_NAME"/>
+<result property="memberEmail" column="MEMBER_EMAIL"/>
+<result property="memberJoinDate" column="MEMBER_JOIN_DATE"/>
+<result property="memberImg" column="MEMBER_IMG"/>
+<result property="memberPoint" column="MEMBER_POINT"/>
+<result property="memberAuth" column="MEMBER_AUTH" />
+<result property="memberDevPoint" column="MEMBER_DEVPOINT"/>
+<result property="memberRank" column="MEMBER_Rank"/>
+<result property="memberSanctionTime" column="MEMBER_SANCTIONTIME"/>
+
+
+</resultMap>
+
+
+</mapper>

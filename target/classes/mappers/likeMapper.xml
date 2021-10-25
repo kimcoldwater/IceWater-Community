@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="likeMapper">
+
+<!-- 게시글 추천수 -->
+<update id="updateLike" parameterType="int">
+update MP_BOARD set 
+LIKEHIT = LIKEHIT+1
+where BNO = #{bno}
+</update>
+
+<!-- 게시글 추천수취소 -->
+<update id="updateLikeCancel" parameterType="int">
+update MP_BOARD set 
+LIKEHIT = LIKEHIT - 1
+where BNO = #{bno}
+</update>
+
+
+<!-- 게시글 추천 시 Like 테이블에 insert -->
+<insert id="insertLike">
+insert into MP_LIKE(LIKENO , BNO , MEMBER_ID) 
+values((SELECT NVL(MAX(likeno), 0) + 1 FROM MP_LIKE) ,#{bno} ,#{memberId})
+</insert>
+
+<!-- 게시글 추천취소 시 delete -->
+<delete id="deleteLike">
+delete from MP_LIKE where BNO = #{bno} and MEMBER_ID = #{memberId}
+</delete>
+
+<!-- 게시글 추천 중복방지 select문 -->
+<select id="likeCheck" resultType="int">
+select count(*) from MP_LIKE where BNO = #{bno} and MEMBER_ID = #{memberId} 
+</select>
+
+<!-- 게시글 추천 시 회원포인트 증가 -->
+<update id="memberPointPlus">
+update MP_MEMBER set MEMBER_POINT = MEMBER_POINT + 1 where MEMBER_ID = #{writerId}
+</update>
+
+<!-- 게시글 추천취소 시 회원포인트 감소 -->
+<update id="memberPointDown">
+update MP_MEMBER set MEMBER_POINT = MEMBER_POINT - 1 where MEMBER_ID = #{writerId}
+</update>
+
+
+<!-- 반대 -->
+
+
+<!-- 게시글 추천수 -->
+<update id="updateHate" parameterType="int">
+update MP_BOARD set 
+HATEHIT = HATEHIT + 1
+where BNO = #{bno}
+</update>
+
+<!-- 게시글 추천수취소 -->
+<update id="updateHateCancel" parameterType="int">
+update MP_BOARD set 
+HATEHIT = HATEHIT - 1
+where BNO = #{bno}
+</update>
+
+<!-- 게시글 추천 시 Like 테이블에 insert -->
+<insert id="insertHate">
+insert into MP_HATE (HATENO , BNO , MEMBER_ID) 
+values((SELECT NVL(MAX(hateno), 0) + 1 FROM MP_HATE) ,#{bno} ,#{memberId})
+</insert>
+
+<!-- 게시글 추천취소 시 delete -->
+<delete id="deleteHate">
+delete from MP_HATE where BNO = #{bno} and MEMBER_ID = #{memberId}
+</delete>
+
+<!-- 게시글 추천 중복방지 select문 -->
+<select id="hateCheck" resultType="int">
+select count(*) from MP_HATE where BNO = #{bno} and MEMBER_ID = #{memberId} 
+</select>
+
+
+
+
+<!-- dev 포인트 -->
+
+
+<!-- 게시글 추천수 -->
+<update id="updateDev" parameterType="int">
+update MP_BOARD set 
+DEVHIT = DEVHIT+1
+where BNO = #{bno}
+</update>
+
+<!-- 게시글 추천수취소 -->
+<update id="updateDevCancel" parameterType="int">
+update MP_BOARD set 
+DEVHIT = DEVHIT - 1
+where BNO = #{bno}
+</update>
+
+
+<!-- 게시글 추천 시 Like 테이블에 insert -->
+<insert id="insertDev">
+insert into MP_DEV(DEVNO , BNO , MEMBER_ID) 
+values((SELECT NVL(MAX(devno), 0) + 1 FROM MP_DEV) ,#{bno} ,#{memberId})
+</insert>
+
+<!-- 게시글 추천취소 시 delete -->
+<delete id="deleteDev">
+delete from MP_DEV where BNO = #{bno} and MEMBER_ID = #{memberId}
+</delete>
+
+<!-- 게시글 추천 중복방지 select문 -->
+<select id="devCheck" resultType="int">
+select count(*) from MP_DEV where BNO = #{bno} and MEMBER_ID = #{memberId} 
+</select>
+
+<!-- 게시글 추천 시 회원DEV포인트 증가 -->
+<update id="memberDevPointPlus">
+update MP_MEMBER set MEMBER_DEVPOINT = MEMBER_DEVPOINT + 1 where MEMBER_ID = #{writerId}
+</update>
+
+<!-- 게시글 추천취소 시 회원DEV포인트 감소 -->
+<update id="memberDevPointDown">
+update MP_MEMBER set MEMBER_DEVPOINT = MEMBER_DEVPOINT - 1 where MEMBER_ID = #{writerId}
+</update>
+
+
+<!-- 추천포인트-->
+<update id="upPoint">
+update MP_MEMBER SET MEMBER_POINT = MEMBER_POINT + #{point} where MEMBER_ID = #{memberId}
+</update>
+
+
+
+<!-- 개발포인트  -->
+<update id="upDevPoint">
+update MP_MEMBER SET MEMBER_DEVPOINT = MEMBER_DEVPOINT + #{point} where MEMBER_ID = #{memberId}
+</update>
+
+
+
+
+</mapper>

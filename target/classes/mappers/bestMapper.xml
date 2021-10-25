@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bestMapper">
+
+<!-- 메인화면 쿼리 -->
+
+<!-- weekly Best -->	
+	<select id="bestList" resultMap="BoardVO">
+
+SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-7,'YYYYMMDD' ))
+		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test=" memberId !='' ">
+		AND b.member_id=#{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		ORDER BY a.LIKEHIT desc
+		
+	</select>
+	
+	<select id="qnaList" resultMap="BoardVO">
+
+		SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (select * from MP_BOARD WHERE BGNO = 20 or BGNO = 21  or BGNO = 22 or BGNO = 23 )
+		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test=" memberId !='' ">
+		AND b.member_id=#{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		where QUESTIONCHECK = 0
+		ORDER BY a.BNO desc
+		
+	</select>
+	
+	
+		<select id="bestList1" resultMap="BoardVO">
+		SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
+		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test=" memberId !='' ">
+		AND b.member_id=#{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		where bgno = 1
+		ORDER BY a.LIKEHIT desc
+		
+	</select>
+	
+		<select id="bestList3" resultMap="BoardVO">
+		SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
+		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test=" memberId !='' ">
+		AND b.member_id=#{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		where bgno = 3
+		ORDER BY a.LIKEHIT desc
+		
+	</select>
+	
+		<select id="bestList4" resultMap="BoardVO">
+		SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
+		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test=" memberId !='' ">
+		AND b.member_id=#{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		where bgno = 4
+		ORDER BY a.LIKEHIT desc
+		
+	</select>
+	
+		<select id="bestList6" resultMap="BoardVO">
+		SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
+		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test=" memberId !='' ">
+		AND b.member_id=#{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		where bgno = 6
+		ORDER BY a.LIKEHIT desc
+		
+	</select>
+	
+	
+		<select id="bestBoard" resultMap="BoardVO">
+		SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (select * from MP_BOARD where likehit >= 20)
+		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test=" memberId !='' ">
+		AND b.member_id=#{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		ORDER BY a.bno desc
+		
+	</select>
+
+
+
+		<select id="popularBoard" resultMap="BoardVO"
+		parameterType="kr.co.vo.SearchCriteria">
+		SELECT a.BNO,
+		a.TITLE,
+		a.CONTENT,
+		a.WRITER,
+		a.REGDATE,
+		a.HIT,
+		a.REPLYHIT,
+		a.BGNO,
+		a.LIKEHIT,
+		a.HATEHIT,
+		a.ID,
+		a.DEVHIT,
+		a.QUESTIONCHECK,
+		a.HELPPOINT,
+		b.BNO,
+		b.MEMBER_ID,
+		c.MEMBER_ID,
+		c.MEMBER_DEVPOINT,
+		c.MEMBER_POINT,
+		c.MEMBER_IMG,
+		c.MEMBER_NAME
+		FROM (
+		SELECT BNO,
+		TITLE,
+		CONTENT,
+		WRITER,
+		REGDATE,
+		HIT ,
+		REPLYHIT,
+		BGNO,
+		LIKEHIT,
+		HATEHIT,
+		ID,
+		DEVHIT,
+		QUESTIONCHECK,
+		HELPPOINT,
+		ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
+		FROM MP_BOARD
+		WHERE likehit >= 20
+		<include refid="search" />
+		)a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
+		<if test="memberId != null">
+		AND b.member_id = #{memberId}
+		</if>
+		left outer Join MP_MEMBER c on a.ID = c.member_ID
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		order by a.bno desc
+	</select>
+
+	<select id="popularCount" parameterType="kr.co.vo.SearchCriteria"
+		resultType="int">
+		SELECT COUNT(BNO)
+		FROM MP_BOARD
+		WHERE likehit >= 20
+		
+		
+		
+		
+	</select>
+
+
+
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND WRITER LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT
+				LIKE '%' || #{keyword} || '%')</if>
+			<if test="searchType == 'tcw'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT
+				LIKE '%' || #{keyword} || '%') or (WRITER LIKE '%' || #{keyword} ||
+				'%')</if>
+
+		</if>
+	</sql>
+	<resultMap type="kr.co.vo.BoardCheckVO" id="BoardCheckVO">
+		<result column="CNO" property="cno"/>
+		<result column="BNO" property="bno"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
+	
+	<resultMap type="kr.co.vo.BoardVO" id="BoardVO">
+		<result column="BNO" property="bno"/>
+		<result column="TITLE" property="title"/>
+		<result column="WRITER" property="writer"/>
+		<result column="CONTENT" property="content"/>
+		<result column="HIT" property="hit"/>
+		<result column="ID" property="id"/>
+		<result column="REPLYHIT" property="replyhit"/>
+		<result column="REGDATE" property="regdate"/>
+		<result column="BGNO" property="bgno"/>
+		<result column="LIKEHIT" property="likehit"/>
+		<result column="HATEHIT" property="hatehit"/>
+		<result column="ID" property="id"/>
+		<result column="DEVHIT" property="devhit"/>
+		<result column="QUESTIONCHECK" property="questioncheck"/>
+		<result column="HELPPOINT" property="helppoint"/>
+		<result column="QUESTIONID" property="questionid"/>
+		
+		<collection property="boardCheckVO" resultMap="BoardCheckVO"></collection>
+		<collection property="memberVO" resultMap="MemberVO"></collection>
+	
+	</resultMap>
+	
+	<resultMap type="kr.co.vo.MemberVO" id="MemberVO">
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="MEMBER_POINT" property="memberPoint"/>
+		<result column="MEMBER_DEVPOINT" property="memberDevPoint"/>
+		<result column="MEMBER_IMG" property="memberImg"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		
+	</resultMap>
+	
+</mapper>

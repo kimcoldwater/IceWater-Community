@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="logMapper">
+<insert id="insertLog" parameterType="kr.co.vo.LogVO">
+insert into MP_LOG (LOGNO , MEMBER_ID,BNO,RNO,QUESTIONID,CATEGORI)
+values 
+((SELECT NVL(MAX(LOGNO), 0) + 1 FROM MP_LOG), #{memberId}, #{bno} , #{rno, jdbcType=INTEGER} , #{questionId, jdbcType=VARCHAR},#{categori})
+</insert>
+
+<delete id="deleteLog" parameterType="kr.co.vo.LogVO">
+delete from MP_LOG where MEMBER_ID = #{memberId} and BNO = #{bno} and CATEGORI = #{categori}
+</delete>
+
+<delete id="deleteReplyLog" parameterType="kr.co.vo.LogVO">
+delete from MP_LOG where MEMBER_ID = #{memberId} and RNO = #{rno} and CATEGORI = #{categori}
+</delete>
+
+
+<select id="memberInfo" resultMap="memberVO">
+select  MEMBER_NAME , MEMBER_IMG , MEMBER_POINT , MEMBER_DEVPOINT from MP_MEMBER where MEMBER_ID = #{memberId}
+</select>
+
+<select id="memberLog" resultMap="LogVO">
+select a.BNO , a.RNO ,a.member_id ,a.QUESTIONID , a.CATEGORI , a.LOGDATE , b.title,b.writer ,b.bgno,c.writer from MP_LOG a 
+left outer join MP_BOARD b on a.bno = b.bno
+left outer join MP_REPLY c on a.rno = c.rno
+where a.member_id = #{memberId} order by a.logdate desc
+</select>
+
+
+<select id="memberWrite" resultType="kr.co.vo.BoardVO">
+select BNO , TITLE ,WRITER , REGDATE , LIKEHIT , HATEHIT , DEVHIT ,BGNO from MP_BOARD where ID = #{memberId} order by regdate desc
+</select>
+
+<select id="memberReply" resultMap="ReplyVO">
+select b.bno , b.title , b.bgno , b.writer , a.regdate , a.rno from MP_Reply a left outer join MP_Board b
+on a.bno = b.bno
+where a.ID = #{memberId} order by a.regdate desc
+</select>
+
+<select id="memberScrap" resultMap="BoardVO">
+select b.BNO , b.title , b.regdate , b.likehit , b.hatehit , b.devhit , b.bgno, a.scrapdate from MP_SCRAP a right outer join MP_BOARD b
+on a.bno = b.bno where a.member_id = #{memberId} order by a.scrapdate desc
+</select>
+
+<select id="memberDevCount" resultType="int">
+select count(*) from MP_LOG where member_id = #{memberId} and CATEGORI = 11
+</select>
+
+
+
+
+<!-- 알람기능 -->
+
+<insert id="insertAlram">
+insert into MP_ALRAM (NO,TOID , FROMID , BNO , TITLE , CATEGORI ,BGNO) 
+values ((SELECT NVL(MAX(NO), 0) + 1 FROM MP_ALRAM),#{toid},#{fromid},#{bno},#{title},#{categori},#{bgno})
+</insert>
+
+
+<select id="alramCount" resultType="int">
+select count(*) from MP_ALRAM where FROMID = #{memberId}
+</select>
+
+<select id="alramList" resultType="kr.co.vo.AlramVO">
+<![CDATA[
+select * from (select * from MP_ALRAM where FROMID = #{memberId} ) where rowNUM <=6 order by ALRAMDATE DESC
+]]>
+</select>
+
+<delete id="alramClick">
+delete from MP_ALRAM where FROMID = #{memberId} AND bno = #{bno}
+</delete>
+
+
+
+
+<resultMap id="memberVO" type="kr.co.vo.MemberVO">
+<result property="memberId" column="MEMBER_ID"/>
+<result property="memberPw" column="MEMBER_PW"/>
+<result property="memberName" column="MEMBER_NAME"/>
+<result property="memberEmail" column="MEMBER_EMAIL"/>
+<result property="memberJoinDate" column="MEMBER_JOIN_DATE"/>
+<result property="memberImg" column="MEMBER_IMG"/>
+<result property="memberPoint" column="MEMBER_POINT"/>
+<result property="memberAuth" column="MEMBER_AUTH" />
+<result property="memberDevPoint" column="MEMBER_DEVPOINT"/>
+</resultMap>
+
+<resultMap type="kr.co.vo.BoardVO" id="BoardVO">
+		<result column="BNO" property="bno"/>
+		<result column="TITLE" property="title"/>
+		<result column="WRITER" property="writer"/>
+		<result column="CONTENT" property="content"/>
+		<result column="HIT" property="hit"/>
+		<result column="ID" property="id"/>
+		<result column="REPLYHIT" property="replyhit"/>
+		<result column="REGDATE" property="regdate"/>
+		<result column="BGNO" property="bgno"/>
+		<result column="LIKEHIT" property="likehit"/>
+		<result column="HATEHIT" property="hatehit"/>
+		<result column="ID" property="id"/>
+		<result column="DEVHIT" property="devhit"/>
+		<result column="QUESTIONCHECK" property="questioncheck"/>
+		<result column="HELPPOINT" property="helppoint"/>
+		<result column="QUESTIONID" property="questionid"/>	
+		<result column="scrapdate" property="scrapdate"/>	
+		
+	</resultMap>
+	
+		<resultMap type="kr.co.vo.ReplyVO" id="ReplyVO">
+		<result column="BNO" property="bno"/>
+		<result column="RNO" property="rno"/>
+		<result column="WRITER" property="writer"/>
+		<result column="REGDATE" property="regdate"/>
+		<result column="CONTENT" property="content"/>
+		<result column="ID" property="id"/>
+		<result column="LIKEHIT" property="likehit"/>
+		<result column="HATEHIT" property="hatehit"/>
+		<result column="DEVHIT" property="devhit"/>
+	<collection property="boardVO" resultMap="BoardVO"></collection>
+		
+
+	</resultMap>
+	
+	<resultMap type="kr.co.vo.LogVO" id="LogVO">
+			<result column="BNO" property="bno"/>
+		<result column="RNO" property="rno"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="QUESTIONID" property="questionId"/>
+		<result column="CATEGORI" property="categori"/>
+		<result column="LOGDATE" property="logdate"/>
+		<collection property="replyVO" resultMap="ReplyVO"></collection>
+		<collection property="boardVO" resultMap="BoardVO"></collection>
+	</resultMap>
+</mapper>

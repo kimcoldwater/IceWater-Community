@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+<insert id="register">
+	INSERT INTO MP_MEMBER(
+		MEMBER_ID,
+		MEMBER_PW,
+		MEMBER_NAME,
+		MEMBER_EMAIL,
+		MEMBER_ID_YN
+	
+		) VALUES(
+		#{memberId},
+		#{memberPw},
+		#{memberName},
+		#{memberEmail},
+		#{memberId_yn}
+	
+		)
+</insert>	
+
+<select id="idCnt" parameterType="kr.co.vo.MemberVO" resultType="java.lang.Integer">
+<![CDATA[
+	select
+		count(*)
+	from
+		MP_MEMBER
+	where
+		member_Id = #{memberId}
+]]>	
+</select> 
+
+<select id="login" resultMap="MemberVOResultMap">
+select * from mp_member where member_id = #{memberId}
+</select>
+
+<resultMap id="MemberVOResultMap" type="kr.co.vo.MemberVO">
+<result property="memberId" column="MEMBER_ID"/>
+<result property="memberPw" column="MEMBER_PW"/>
+<result property="memberName" column="MEMBER_NAME"/>
+<result property="memberEmail" column="MEMBER_EMAIL"/>
+<result property="memberJoinDate" column="MEMBER_JOIN_DATE"/>
+<result property="memberImg" column="MEMBER_IMG"/>
+<result property="memberPoint" column="MEMBER_POINT"/>
+<result property="memberAuth" column="MEMBER_AUTH" />
+<result property="memberDevPoint" column="MEMBER_DEVPOINT"/>
+<result property="memberRank" column="MEMBER_Rank"/>
+
+
+</resultMap>
+
+<update id="keepLogin">
+UPDATE mp_member
+SET session_key = #{sessionId},
+session_limit = #{sessionLimit}
+WHERE member_id=#{memberId}
+</update>
+
+<select id="check" resultMap="MemberVOResultMap">
+SELECT
+*
+FROM MP_MEMBER
+WHERE session_key = #{value}
+</select>
+<insert id="createAuthKey">
+	insert into MP_MEMBER_AUTH values(#{memberEmail}, #{authKey})
+</insert>
+
+<update id="memberAuth">
+	<![CDATA[update MP_MEMBER set MEMBER_AUTH = 1 where (select count(*) from MP_MEMBER_AUTH where MEMBEREMAIL = #{memberEmail} AND AUTHKEY = #{authKey}) > 0]]>
+</update>
+
+<select id="findId" resultMap="MemberVOResultMap">
+select * from MP_MEMBER where MEMBER_EMAIL = #{memberEmail}
+</select>
+
+<select id="findIdCheck" resultType="int">
+select count(*) from MP_MEMBER where MEMBER_Email = #{memberEmail}
+</select>
+
+
+<update id="findPw" >
+update MP_MEMBER set MEMBER_PW = #{memberPw} where MEMBER_EMAIL = #{memberEmail} and MEMBER_ID = #{memberId}
+</update>
+
+<select id="findPwCheck" resultType="int">
+select count(*) from MP_MEMBER where MEMBER_EMAIL = #{memberEmail} and MEMBER_ID = #{memberId}
+</select>
+
+<update id="infoUpdate">
+update MP_MEMBER set MEMBER_NAME = #{memberName}, MEMBER_EMAIL = #{memberEmail} where MEMBER_ID = #{memberId}
+</update>
+
+<select id="nameCheck" parameterType="kr.co.vo.MemberVO" resultType="java.lang.Integer">
+select count(*) from MP_MEMBER where MEMBER_NAME = #{memberName}
+</select>
+
+<select id="pwCheck" resultType="String">
+select MEMBER_PW from mp_member where member_id = #{memberId}
+</select>
+
+<update id="pwUpdate">
+update MP_MEMBER set MEMBER_PW = #{memberPw} where MEMBER_ID = #{memberId}
+</update>
+
+<delete id="delete">
+delete from MP_MEMBER WHERE MEMBER_ID = #{memberId}
+</delete>
+
+
+<update id="updateImg">
+update MP_MEMBER set MEMBER_IMG = #{memberImg} where Member_ID = #{memberId}
+</update>
+
+<!-- SNS로그인  -->
+<select id="snsLoginCheck" resultType="int">
+select count(*) from MP_MEMBER where member_ID = #{memberId}
+</select>
+
+
+
+
+</mapper>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="replyMapper">
+	<select id="readReply" resultMap="ReplyVO">
+	SELECT 
+		a.BNO,a.RNO, a.CONTENT, a.WRITER, a.REGDATE, a.ID , a.LIKEHIT,a.HATEHIT,a.DEVHIT,b.MEMBER_POINT,b.MEMBER_DEVPOINT
+	,b.MEMBER_NAME , b.MEMBER_IMG FROM MP_REPLY a left outer Join MP_MEMBER b 
+	on a.ID = b.MEMBER_ID
+	WHERE BNO = #{bno}
+	order by RNO DESC
+	</select>
+	<resultMap type="kr.co.vo.MemberVO" id="MemberVO">
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="MEMBER_POINT" property="memberPoint"/>
+		<result column="MEMBER_DEVPOINT" property="memberDevPoint"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="MEMBER_IMG" property="memberImg"/>
+		
+	</resultMap>
+	
+	<resultMap type="kr.co.vo.ReplyVO" id="ReplyVO">
+		<result column="BNO" property="bno"/>
+		<result column="RNO" property="rno"/>
+		<result column="WRITER" property="writer"/>
+		<result column="REGDATE" property="regdate"/>
+		<result column="CONTENT" property="content"/>
+		<result column="ID" property="id"/>
+		<result column="LIKEHIT" property="likehit"/>
+		<result column="HATEHIT" property="hatehit"/>
+		<result column="DEVHIT" property="devhit"/>
+		<collection property="memberVO" resultMap="MemberVO"></collection>
+	
+	</resultMap>
+	
+	<select id="ReplyCount" resultType="int">
+	SELECT
+	COUNT(*)
+	FROM MP_REPLY
+	
+	</select>
+	
+	<insert id="insertReply" parameterType = "kr.co.vo.ReplyVO" keyProperty="rno">
+	<selectKey keyProperty="rno" resultType="int" order="BEFORE">
+	SELECT MP_REPLY_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+	INSERT INTO MP_REPLY(
+	BNO,RNO,CONTENT,WRITER,ID
+	)VALUES(
+	#{bno},
+	#{rno},
+	#{content},
+	#{writer},
+	#{id}
+	)
+	</insert>
+	
+	<update id="updateReply" parameterType="kr.co.vo.ReplyVO">
+	UPDATE MP_REPLY SET CONTENT = #{content}
+	WHERE RNO = #{rno}
+	</update>
+	
+	<delete id="deleteReply" parameterType="kr.co.vo.ReplyVO">
+	DELETE FROM MP_REPLY
+	WHERE RNO = #{rno}
+	</delete>
+	
+	<select id="selectReply" resultType="kr.co.vo.ReplyVO">
+	SELECT
+	BNO,
+	RNO,
+	CONTENT,
+	WRITER,
+	REGDATE,
+	FROM MP_REPLY,
+	WHERE RNO = #{rno}
+	</select>
+	
+	<!-- 댓글 수 -->
+	<update id="replyCount" parameterType="int">
+	UPDATE MP_BOARD SET REPLYHIT = (select count(*) from MP_REPLY where BNO = #{bno}) WHERE BNO=#{bno} 
+	</update>
+	
+	<select id="getBno" resultType="int">
+	SELECT 
+	bno
+	FROM
+	MP_REPLY
+	WHERE
+	rno = #{rno}
+	</select>
+	
+	<insert id="insertFileReply" parameterType="hashMap">
+		INSERT INTO MP_FILE(
+		FILE_NO,
+		BNO,
+		RNO,
+		ORG_FILE_NAME,
+		STORED_FILE_NAME,
+		FILE_SIZE
+		)VALUES(
+		SEQ_MP_FILE_NO.NEXTVAL,
+		#{BNO},
+		#{RNO},
+		#{ORG_FILE_NAME},
+		#{STORED_FILE_NAME},
+		#{FILE_SIZE}
+		)
+	
+	</insert>
+	
+	
+	
+	
+	<!-- 게시글 추천수 -->
+<update id="updateLike" >
+update MP_REPLY set 
+LIKEHIT = LIKEHIT +1
+where RNO = #{rno}
+</update>
+
+<!-- 게시글 추천수취소 -->
+<update id="updateLikeCancel" >
+update MP_REPLY set 
+LIKEHIT = LIKEHIT - 1
+where RNO = #{rno}
+</update>
+
+
+<!-- 좋아요 -->
+<!-- 게시글 추천 시 Like 테이블에 insert -->
+<insert id="insertLike">
+insert into MP_REPLY_LIKE(LIKENO , BNO , RNO ,MEMBER_ID) 
+values((SELECT NVL(MAX(likeno), 0) + 1 FROM MP_REPLY_LIKE) ,#{bno},#{rno} ,#{memberId})
+</insert>
+
+<!-- 게시글 추천취소 시 delete -->
+<delete id="deleteLike">
+delete from MP_REPLY_LIKE where MEMBER_ID = #{memberId} and RNO = #{rno}
+</delete>
+
+<!-- 게시글 추천 중복방지 select문 -->
+<select id="likeCheck" resultType="int">
+select count(*) from MP_REPLY_LIKE where MEMBER_ID = #{memberId} and RNO = #{rno}
+</select>
+
+<!-- 게시글 추천 시 회원포인트 증가 -->
+<update id="memberPointPlus">
+update MP_MEMBER set MEMBER_POINT = MEMBER_POINT + 1 where MEMBER_ID = #{writerId}
+</update>
+
+<!-- 게시글 추천취소 시 회원포인트 감소 -->
+<update id="memberPointDown">
+update MP_MEMBER set MEMBER_POINT = MEMBER_POINT - 1 where MEMBER_ID = #{writerId}
+</update>
+	
+
+
+<!-- 반대 -->
+
+
+<!-- 게시글 추천수 -->
+<update id="updateHate" parameterType="int">
+update MP_REPLY set 
+HATEHIT = HATEHIT + 1
+where RNO = #{rno}
+</update>
+
+<!-- 게시글 추천수취소 -->
+<update id="updateHateCancel" parameterType="int">
+update MP_REPLY set 
+HATEHIT = HATEHIT - 1
+where RNO = #{rno}
+</update>
+
+<!-- 게시글 추천 시 Like 테이블에 insert -->
+<insert id="insertHate">
+insert into MP_REPLY_HATE (HATENO , BNO ,RNO , MEMBER_ID) 
+values((SELECT NVL(MAX(hateno), 0) + 1 FROM MP_REPLY_HATE) ,#{bno}, #{rno} ,#{memberId})
+</insert>
+
+<!-- 게시글 추천취소 시 delete -->
+<delete id="deleteHate">
+delete from MP_REPLY_HATE where RNO = #{rno} and MEMBER_ID = #{memberId}
+</delete>
+
+<!-- 게시글 추천 중복방지 select문 -->
+<select id="hateCheck" resultType="int">
+select count(*) from MP_REPLY_HATE where RNO = #{rno} and MEMBER_ID = #{memberId} 
+</select>
+
+
+
+
+<!-- dev 포인트 -->
+
+
+<!-- 게시글 추천수 -->
+<update id="updateDev" parameterType="int">
+update MP_REPLY set 
+DEVHIT = DEVHIT+1
+where RNO = #{rno}
+</update>
+
+<!-- 게시글 추천수취소 -->
+<update id="updateDevCancel" parameterType="int">
+update MP_REPLY set 
+DEVHIT = DEVHIT - 1
+where RNO = #{rno}
+</update>
+
+
+<!-- 게시글 추천 시 Like 테이블에 insert -->
+<insert id="insertDev">
+insert into MP_REPLY_DEV(DEVNO , BNO,RNO , MEMBER_ID) 
+values((SELECT NVL(MAX(devno), 0) + 1 FROM MP_REPLY_DEV) ,#{bno},#{rno} ,#{memberId})
+</insert>
+
+<!-- 게시글 추천취소 시 delete -->
+<delete id="deleteDev">
+delete from MP_REPLY_DEV where RNO = #{rno} and MEMBER_ID = #{memberId}
+</delete>
+
+<!-- 게시글 추천 중복방지 select문 -->
+<select id="devCheck" resultType="int">
+select count(*) from MP_REPLY_DEV where RNO = #{rno} and MEMBER_ID = #{memberId} 
+</select>
+
+<!-- 게시글 추천 시 회원DEV포인트 증가 -->
+<update id="memberDevPointPlus">
+update MP_MEMBER set MEMBER_DEVPOINT = MEMBER_DEVPOINT + 1 where MEMBER_ID = #{writerId}
+</update>
+
+<!-- 게시글 추천취소 시 회원DEV포인트 감소 -->
+<update id="memberDevPointDown">
+update MP_MEMBER set MEMBER_DEVPOINT = MEMBER_DEVPOINT - 1 where MEMBER_ID = #{writerId}
+</update>
+	
+
+</mapper>

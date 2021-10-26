@@ -16,7 +16,7 @@ import kr.co.vo.ReplyVO;
 
 @Component
 public class FileUtils {
-	private static final String filePath = "C:\\mp\\file\\"; // 파일이 저장될 위치
+	private static final String filePath = "/var/lib/tomcat9/webapps/upload/"; // 파일이 저장될 위치
 	
 	public List<Map<String, Object>> parseInsertFileInfo(BoardVO boardVO, 
 			MultipartHttpServletRequest mpRequest) throws Exception{

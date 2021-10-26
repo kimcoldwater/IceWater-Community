@@ -5,7 +5,7 @@
 <!--  회원정지 -->
 <update id="memberSanction">
 <![CDATA[
-update MP_MEMBER set MEMBER_RANK = 2 , MEMBER_SANCTIONTIME = TO_CHAR(SYSDATE + #{sanctionTime}, 'yyyy/mm/dd') where MEMBER_ID = #{memberId}
+update MP_MEMBER set MEMBER_RANK = 2 , MEMBER_SANCTIONTIME = TO_DATE(SYSDATE + #{sanctionTime}, 'YYYY/MM/DD') where member_id = #{memberId}
 ]]>
 </update>
 
@@ -17,7 +17,7 @@ update MP_MEMBER set MEMBER_RANK = 1 where MEMBER_ID = #{memberId}
 <!-- 정지된 회원인지 확인 -->
 <select id="memberRankCheck" resultType="int">
 <![CDATA[
-select count(*) from MP_MEMBER where MEMBER_ID = #{memberId} AND MEMBER_RANK = 2 AND MEMBER_SANCTIONTIME > SYSDATE 
+select count(*) from MP_MEMBER where MEMBER_ID = #{memberId} AND MEMBER_RANK = 2 AND TO_CHAR(MEMBER_SANCTIONTIME,'YYYYMMDD') > TO_CHAR(SYSDATE,'YYYYMMDD') 
 ]]>
 </select>
 

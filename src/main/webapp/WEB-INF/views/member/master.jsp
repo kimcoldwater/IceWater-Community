@@ -146,8 +146,9 @@
                 
                     <div class="form-group">
                         <label class="control-label" for="fullName">ID입력</label>
-                        <input type="text" name="memberName" class="form-control input-sm" >
-                        <select name="sanctionTime">
+                        <input type="text" name="memberId" id="memberId" class="form-control input-sm" >
+                        
+                        <select name="sanctionTime" id="sanctionTime">
                         <option value="1">1일</option>
                         <option value="7">7일</option>
                         <option value="30">30일</option>

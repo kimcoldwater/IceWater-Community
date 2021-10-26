@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +42,7 @@ import kr.co.vo.PageMaker;
 import kr.co.vo.SearchCriteria;
 import net.sf.json.JSONObject;
 
+@CrossOrigin(origins = "*")
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -436,9 +438,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/memberSanction", method=RequestMethod.POST)
-	public String memberSanction(Model model,String memberName,int sanctionTime) throws Exception{
+	public String memberSanction(Model model,String memberId,String sanctionTime) throws Exception{
 		
-		memberService.memberSanction(memberName,sanctionTime);	
+		memberService.memberSanction(memberId,sanctionTime);	
 		
 		
 		return "redirect:/member/master";

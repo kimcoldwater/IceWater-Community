@@ -46,7 +46,7 @@ public interface MemberService {
 
 
 	//회원정지
-	public void memberSanction(String memberName,int sanctionTime)throws Exception;
+	public void memberSanction(String memberId,String sanctionTime)throws Exception;
 		
 	//회원정지해제
 	public void memberSanctionCancel(String memberId)throws Exception;

@@ -28,7 +28,7 @@ SELECT a.BNO,
 		c.MEMBER_POINT,
 		c.MEMBER_IMG,
 		c.MEMBER_NAME
-		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-7,'YYYYMMDD' ))
+		FROM (select * from MP_BOARD where TO_CHAR(REGDATE,'YYYYMMDD') >= TO_CHAR(SYSDATE-7,'YYYYMMDD' ))
 		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
 		<if test=" memberId !='' ">
 		AND b.member_id=#{memberId}
@@ -95,7 +95,7 @@ SELECT a.BNO,
 		c.MEMBER_POINT,
 		c.MEMBER_IMG,
 		c.MEMBER_NAME
-		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
+		FROM (select * from MP_BOARD where TO_CHAR(REGDATE,'YYYYMMDD') >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
 		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
 		<if test=" memberId !='' ">
 		AND b.member_id=#{memberId}
@@ -128,7 +128,7 @@ SELECT a.BNO,
 		c.MEMBER_POINT,
 		c.MEMBER_IMG,
 		c.MEMBER_NAME
-		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
+		FROM (select * from MP_BOARD where TO_CHAR(REGDATE,'YYYYMMDD') >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
 		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
 		<if test=" memberId !='' ">
 		AND b.member_id=#{memberId}
@@ -161,7 +161,7 @@ SELECT a.BNO,
 		c.MEMBER_POINT,
 		c.MEMBER_IMG,
 		c.MEMBER_NAME
-		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
+		FROM (select * from MP_BOARD where TO_CHAR(REGDATE,'YYYYMMDD') >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
 		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
 		<if test=" memberId !='' ">
 		AND b.member_id=#{memberId}
@@ -194,7 +194,7 @@ SELECT a.BNO,
 		c.MEMBER_POINT,
 		c.MEMBER_IMG,
 		c.MEMBER_NAME
-		FROM (select * from MP_BOARD where REGDATE >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
+		FROM (select * from MP_BOARD where TO_CHAR(REGDATE,'YYYYMMDD') >= TO_CHAR(SYSDATE-2,'YYYYMMDD' ))
 		a left outer JOIN MP_BOARD_CHECK b on a.bno = b.bno 
 		<if test=" memberId !='' ">
 		AND b.member_id=#{memberId}

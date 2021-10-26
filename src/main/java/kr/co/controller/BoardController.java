@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,7 @@ import kr.co.vo.PageMaker;
 import kr.co.vo.ReplyVO;
 import kr.co.vo.SearchCriteria;
 
+@CrossOrigin(origins = "*")
 @Controller
 @RequestMapping("/board/*")
 public class BoardController {
@@ -236,7 +238,7 @@ public class BoardController {
 			String originalFileName = (String) resultMap.get("ORG_FILE_NAME");
 			
 			// 파일을 저장했던 위치에서 첨부파일을 읽어 byte[]형식으로 변환한다.
-			byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File("C:\\mp\\file\\"+storedFileName));
+			byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File("/var/lib/tomcat9/webapps/upload/"+storedFileName));
 			
 			response.setContentType("application/octet-stream");
 			response.setContentLength(fileByte.length);

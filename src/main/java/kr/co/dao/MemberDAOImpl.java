@@ -144,9 +144,9 @@ public class MemberDAOImpl implements MemberDAO {
 	
 	//회원정지
 	@Override
-	public void memberSanction(String memberName,int sanctionTime)throws Exception{
+	public void memberSanction(String memberId,String sanctionTime)throws Exception{
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("memberId", memberName);
+		map.put("memberId", memberId);
 		map.put("sanctionTime", sanctionTime);
 		sqlsession.update("masterMapper.memberSanction", map);
 	}

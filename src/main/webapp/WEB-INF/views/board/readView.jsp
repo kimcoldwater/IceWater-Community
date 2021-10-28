@@ -443,7 +443,7 @@ ${read.content}
              <textarea 
 						id="content" name="content"
 						class="myEditor"  ></textarea>
-              <input type="file" name="file" />
+              <input type="file" name="file" /> 
              
                
                     <button class="btn btn-primary" type="button" name="commentInsertBtn" style="width: 40%; margin-top: 10px">댓글등록</button>

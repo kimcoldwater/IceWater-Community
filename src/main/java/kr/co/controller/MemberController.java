@@ -159,12 +159,12 @@ public class MemberController {
 	//로그인
 	@RequestMapping(value="/login" , method= RequestMethod.POST)
 	public String loginPost(LoginVO loginVO, HttpSession httpSession,Model model)throws Exception{
-		logger.info("loginVO"+loginVO.getMemberId());
+		logger.info("login");
 		MemberVO memberVO = memberService.login(loginVO);
 		
 	
 		if(memberService.memberRankCheck(loginVO.getMemberId()) == 1) {
-			logger.info("들어옴?? ");
+			
 			httpSession.invalidate();
 			model.addAttribute("sanctionTime", memberService.memberSanctionTime(memberVO.getMemberId()));
 			return "/member/sanction";

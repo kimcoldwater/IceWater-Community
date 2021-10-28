@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#services">Environment</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     </ul>
@@ -46,8 +46,8 @@
                     </div>
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 mb-5">IT Community <br/><br/>
-                        Reference by<br/> <br/>OKKY <br/> Blind <br/> Stack Overflow <br/> DCinside <br/>웃긴대학 </p>
-                        <a class="btn btn-primary btn-xl" href="/board/">IceWater</a>
+                        Reference by<br/> <br/>OKKY <br/> Blind <br/> Stack Overflow <br/>  </p>
+                        <a class="btn btn-primary btn-xl" href="/board/">IceWater Main</a>
                     </div>
                 </div>
             </div>
@@ -57,16 +57,16 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8 text-center">
-                        <h2 class="text-white mt-0">추천기능으로 이용자의 적극성을 높인 커뮤니티!</h2>
+                        <h2 class="text-white mt-0">추천과 채택 기능으로 이용자의 적극성을 높인 커뮤니티!</h2>
                         <hr class="divider divider-light" />
                         <p class="text-white-75 mb-4">
-                        게시글,댓글 평가 시 각 회원별 좋아요 포인트에 반영이 되도록 구현 
-                        <br/><br/>개발포인트로 IT커뮤니티에 중요한 Q&A 및 정보공유에 참여율을 높일 수 있도록 설계
+                        게시글,댓글 추전기능 사용 시 각 회원포인트에 반영이 되도록 구현 
+                        <br/><br/>회원포인트와 구별되는 개발포인트로 IT커뮤니티에 중요한 Q&A 및 정보공유에 <br/>참여율을 높일 수 있도록 구상
                         <br/><br/>채택기능 및 좋아요 버튼과 구분되는 DEV버튼으로 개발포인트를 획득가능
                         <br/><br/>이용자의 편의성을 생각해서 설계
                         
                         </p>
-                        <a class="btn btn-light btn-xl" href="/board/loginView">Get Started!</a>
+                        <a class="btn btn-light btn-xl" href="/board/">Get Started!</a>
                     </div>
                 </div>
             </div>
@@ -74,38 +74,51 @@
         <!-- Services-->
         <section class="page-section" id="services">
             <div class="container px-4 px-lg-5">
-                <h2 class="text-center mt-0">사용기술 및 버전</h2>
+                <h2 class="text-center mt-0">환경</h2>
                 <hr class="divider" />
                 <div class="row gx-4 gx-lg-5">
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="mt-5">
                             <div class="mb-2"><i class="bi-gem fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Spring Framework</h3>
+                            <h3 class="h4 mb-2">사용언어</h3>
                             <p class="text-muted mb-0">
-                            4.3.12.RELEASE
-                            <br/> Maven
-                            <br/> Tomcat v9.0
-                            <br/> Mybatis
+                            Java 11
+                            <br/> HTML/CSS/JS
+                            <br/> JSP 
+                            <br/> Oracle SQL
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="mt-5">
                             <div class="mb-2"><i class="bi-laptop fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Eclipse</h3>
-                            <p class="text-muted mb-0"> 2021-06 Version
-                            <br/> JavaSE 11 Version
-                            
+                            <h3 class="h4 mb-2">개발환경</h3>
+                            <p class="text-muted mb-0"> 
+                             Eclipse 2021-06
+                            <br/>Spring Framework 4.3.12
+                            <br/> Oracle 19c
+                            <br/> Tomcat v9.0.50 
+                            <br/> Maven
+                            <br/> Mybatis
+                            <br/> Window 10
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="mt-5">
                             <div class="mb-2"><i class="bi-globe fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">AWS</h3>
+                            <h3 class="h4 mb-2">서버환경</h3>
                             <p class="text-muted mb-0">
-                           	Docker
-                            <br/>Git
+                            Linux Ubuntu 20.04 LTS
+                            <br />
+                            AWS EC2
+                            <br />                           	
+							AWS RDS - Oracle 12.1.0.2.v25    
+							<br /> 
+							OpenJDK 11                    
+							<br />    
+							Tomcat9                 
+                            
                             
                             
                             </p>
@@ -114,83 +127,178 @@
                     <div class="col-lg-3 col-md-6 text-center">
                         <div class="mt-5">
                             <div class="mb-2"><i class="bi-heart fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">AJAX</h3>
+                            <h3 class="h4 mb-2">적용기술</h3>
                             <p class="text-muted mb-0">  Open API
-                            <br/>WebSocket
-                            <br/>JSTL
-                            <br/>
+                            <br />WebSocket
+                            <br />Ajax
+                            <br />메일인증
+                            <br />DB암호화
+                            <br />BootStrap
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        
         <!-- Portfolio-->
         <div id="portfolio">
             <div class="container-fluid p-0">
                 <div class="row g-0">
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/1.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/1.jpg" alt="..." />
+                        <a class="portfolio-box" href="/image/portfolio1.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio1.png" alt="..." />
                             <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">01</div>
                             </div>
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/2.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/2.jpg" alt="..." />
+                        <a class="portfolio-box" href="/image/portfolio2.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio2.png" alt="..." />
                             <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
+                                <div class="project-category text-white-50.png">Portfolio</div>
+                                <div class="project-name">02</div>
+                            </div>
+                            
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio3.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio3.png" alt="..." />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">03</div>
                             </div>
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/3.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/3.jpg" alt="..." />
+                        <a class="portfolio-box" href="/image/portfolio4.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio4.png" alt="..." />
                             <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">04</div>
                             </div>
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/4.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/4.jpg" alt="..." />
+                        <a class="portfolio-box" href="/image/portfolio5.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio5.png" alt="..." />
                             <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">05</div>
                             </div>
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/5.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/5.jpg" alt="..." />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/img/portfolio/fullsize/6.jpg" title="Project Name">
-                            <img class="img-fluid" src="assets/img/portfolio/thumbnails/6.jpg" alt="..." />
+                        <a class="portfolio-box" href="/image/portfolio6.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio6.png" alt="..." />
                             <div class="portfolio-box-caption p-3">
-                                <div class="project-category text-white-50">Category</div>
-                                <div class="project-name">Project Name</div>
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">06</div>
                             </div>
                         </a>
                     </div>
+                     <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio7.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio7.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">07</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                                         <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio8.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio8.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">08</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                                         <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio9.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio9.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">09</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                                         <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio10.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio10.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">10</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                                         <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio11.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio11.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">11</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                                         <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio12.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio12.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">12</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                                         <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio13.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio13.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">13</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                                         <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio14.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio14.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">14</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                                         <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="/image/portfolio15.png" title="Project Name">
+                            <img class="img-fluid" src="/image/portfolio15.png" alt="..." />
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Portfolio</div>
+                                <div class="project-name">15</div>
+                            </div>
+                        </a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
         <!-- Call to action-->
         <section class="page-section bg-dark text-white">
             <div class="container px-4 px-lg-5 text-center">
-                <h2 class="mb-4">모든 기능 구현은 https://kimfk567.tistory.com/ 에 기록해놨습니다</h2>
-                <a class="btn btn-light btn-xl" href="https://kimfk567.tistory.com/">블로그로 이동</a>
+                <h2 class="mb-4"> 구현과정은 운영중인 <a href="https://kimfk567.tistory.com/category/SPRING/%EA%B2%8C%EC%8B%9C%ED%8C%90%20%EA%B5%AC%ED%98%84">개발블로그</a>에 기록했습니다</h2>
+               <br/> <h2 class="mb-4">  소스코드는 <a href="https://github.com/kimcoldwater/IceWater-Community">GitHub</a>에 보관중입니다</h2>
+         
             </div>
         </section>
         <!-- Contact-->
@@ -198,74 +306,14 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8 col-xl-6 text-center">
-                        <h2 class="mt-0">Let's Get In Touch!</h2>
+                        <h2 class="mt-0">읽어주셔서 감사합니다!</h2>
                         <hr class="divider" />
-                        <p class="text-muted mb-5">Ready to start your next project with us? Send us a messages and we will get back to you as soon as possible!</p>
+                        <p class="text-muted mb-2"><i class="bi-phone fs-2 mb-3 text-muted"></i> 010 8647 5045</p>
+                        <p class="text-muted mb-5">KakaoTalk. kimfk567</p>
                     </div>
                 </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
-                    <div class="col-lg-6">
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- * * SB Forms Contact Form * *-->
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- This form is pre-integrated with SB Forms.-->
-                        <!-- To make this form functional, sign up at-->
-                        <!-- https://startbootstrap.com/solution/contact-forms-->
-                        <!-- to get an API token!-->
-                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-                            <!-- Name input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
-                                <label for="name">Full name</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
-                            </div>
-                            <!-- Email address input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
-                                <label for="email">Email address</label>
-                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-                            </div>
-                            <!-- Phone number input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
-                                <label for="phone">Phone number</label>
-                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
-                            </div>
-                            <!-- Message input-->
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
-                                <label for="message">Message</label>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
-                            </div>
-                            <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Form submission successful!</div>
-                                    To activate this form, sign up at
-                                    <br />
-                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                </div>
-                            </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                            <!-- Submit Button-->
-                            <div class="d-grid"><button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Submit</button></div>
-                        </form>
-                    </div>
-                </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-4 text-center mb-5 mb-lg-0">
-                        <i class="bi-phone fs-2 mb-3 text-muted"></i>
-                        <div>+1 (555) 123-4567</div>
-                    </div>
-                </div>
+                
+               
             </div>
         </section>
         <!-- Footer-->

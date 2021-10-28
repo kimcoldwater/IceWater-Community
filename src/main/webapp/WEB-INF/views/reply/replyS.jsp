@@ -59,7 +59,7 @@ function commentList(){
                 a += '<tr><td class="commentContent'+value.rno+'"> '+value.content +'</td><tr> <br/>';
                 
                 if(writer == value.id){
-                    a += '<button type="button" class="btn btn-success mr-2" onclick="commentUpdate('+value.rno+');"> 수정 </button>';
+               
                 
                
                 a += '<button type="button" class="btn btn-dark mr-2" onclick="commentDelete('+value.rno+');"> 삭제 </button> ';

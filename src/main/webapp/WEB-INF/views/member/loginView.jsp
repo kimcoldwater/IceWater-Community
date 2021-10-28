@@ -22,10 +22,10 @@
 	rel="stylesheet">
 
 <!-- Custom styles for this template -->
-<link href="<%=request.getContextPath()%>/resources/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="/resources/css/sb-admin-2.min.css" rel="stylesheet">
 
 <!-- Custom styles for this page -->
-<link href="<%=request.getContextPath()%>/resources/vendor/datatables/dataTables.bootstrap4.min.css"
+<link href="/resources/vendor/datatables/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
     <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">

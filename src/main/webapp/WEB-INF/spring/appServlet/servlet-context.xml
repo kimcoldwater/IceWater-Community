@@ -16,8 +16,9 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	<resources mapping="/image/**" location="file:///var/lib/tomcat9/webapps/upload" />
-
+	<resources mapping="/image/**" location="file:///var/lib/tomcat9/webapps/upload/" />
+<!-- var/lib/tomcat9/webapps/upload -->
+<!-- "file:///c:/mp/file/" 로컬 -->
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -47,10 +48,10 @@
     </interceptor>
 </interceptors>
 
+<!-- 비로그인시 제한  후 페이지 기억-->
 <beans:bean id="authInterceptor" class="kr.co.commons.interceptor.AuthInterceptor"/>
 	<interceptors>
 		<interceptor>
-			<!-- 비로그인시 제한 -->
 			<mapping path="/board/writeView" />
 			<mapping path="/board/updateView" />
 			<mapping path="/board/delete"/>

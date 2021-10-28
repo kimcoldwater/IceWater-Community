@@ -22,7 +22,7 @@
 	</repositories>
 	<dependencies>
 	
-	<!-- 구글로그인 -->
+	
 	   <!-- oauth2 login -->
 	    <dependency>
               <groupId>com.github.scribejava</groupId>
